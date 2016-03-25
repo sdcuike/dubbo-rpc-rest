@@ -15,11 +15,7 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.alibaba</groupId>
-        <artifactId>dubbo-rpc</artifactId>
-        <version>2.8.4</version>
-    </parent>
+    <groupId>com.alibaba</groupId>
     <artifactId>dubbo-rpc-rest</artifactId>
     <version>2.8.5-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -28,18 +24,19 @@
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
         <resteasy.version>3.0.16.Final</resteasy.version>
+        <dubbo.version>2.8.4</dubbo.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>dubbo-rpc-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dubbo-remoting-http</artifactId>
-            <version>${project.parent.version}</version>
+            <artifactId>dubbo</artifactId>
+            <version>${dubbo.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -57,6 +54,7 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
         </dependency>
 
         <!-- optional dependencies ==================== -->
@@ -119,4 +117,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
