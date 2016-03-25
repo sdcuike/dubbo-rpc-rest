@@ -119,18 +119,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>quancheng-release</id>
-            <name>Proj Release Repository</name>
-            <url>http://dev010.qc.com:8081/content/repositories/releases</url>
-        </repository>
-
-        <snapshotRepository>
-            <id>quancheng-snapshot</id>
-            <name>Proj Snapshot Repository</name>
-            <url>http://dev010.qc.com:8081/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
