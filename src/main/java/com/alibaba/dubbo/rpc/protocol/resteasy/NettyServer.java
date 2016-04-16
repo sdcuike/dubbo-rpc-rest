@@ -23,7 +23,6 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.utils.NetUtils;
-import com.alibaba.dubbo.common.utils.StringUtils;
 
 /**
  * Netty server can't support @Context injection of servlet objects since it's not a servlet container
@@ -49,8 +48,12 @@ public class NettyServer extends BaseRestServer {
             server.setMaxRequestSize(Constants.DEFAULT_PAYLOAD);
         }
         // @author sdcuike Create At 2016年3月25日 下午2:08:20 https://github.com/sdcuike/dubbo-rpc-rest bug fix 域名设置
-        String host = (StringUtils.isBlank(url.getHost()) || NetUtils.isInvalidLocalHost(url.getHost())) ? NetUtils.ANYHOST : url.getHost();
-        server.setHostname(host);
+        // String host = (StringUtils.isBlank(url.getHost()) || NetUtils.isInvalidLocalHost(url.getHost())) ? NetUtils.ANYHOST : url.getHost();
+        // server.setHostname(host);
+        if (!url.isAnyHost() && NetUtils.isValidLocalHost(url.getHost())) {
+            server.setHostname(url.getHost());
+        }
+
         server.start();
     }
 
