@@ -21,7 +21,16 @@
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>The JAX-RS rpc module of dubbo project</description>
+
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <skip_maven_deploy>true</skip_maven_deploy>
         <resteasy.version>3.0.16.Final</resteasy.version>
         <dubbo.version>2.8.4</dubbo.version>
@@ -31,6 +40,7 @@
         <jul-to-slf4j.version>1.7.14</jul-to-slf4j.version>
         <netty.version>4.0.35.Final</netty.version>
         <spring.version>4.2.1.RELEASE</spring.version>
+        <httpclient.version>4.5.2</httpclient.version>
     </properties>
 
     <dependencyManagement>
@@ -50,9 +60,22 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            
         </dependencies>
+
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
