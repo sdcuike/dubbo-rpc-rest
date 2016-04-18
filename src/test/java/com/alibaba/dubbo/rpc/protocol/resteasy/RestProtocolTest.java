@@ -2,7 +2,6 @@ package com.alibaba.dubbo.rpc.protocol.resteasy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -49,7 +48,7 @@ public class RestProtocolTest {
         Assert.assertEquals(expected, modelResult.getData());
         invoker.destroy();
 
-        TimeUnit.MINUTES.sleep(1);
+        // TimeUnit.MINUTES.sleep(1);
         exporter.unexport();
     }
 
@@ -91,7 +90,7 @@ public class RestProtocolTest {
         resourceMethodRegistry.setWiderMatching(true);// 不设置也可以
 
         deployment.getRegistry().addSingletonResource(new RestServiceImpl());
-        TimeUnit.MINUTES.sleep(1);
+        // TimeUnit.MINUTES.sleep(1);
 
     }
 
