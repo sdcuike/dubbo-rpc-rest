@@ -15,15 +15,17 @@
  */
 package com.alibaba.dubbo.rpc.protocol.resteasy;
 
-import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.URL;
-import com.alibaba.dubbo.common.utils.StringUtils;
-import com.alibaba.dubbo.remoting.http.HttpBinder;
-import com.alibaba.dubbo.remoting.http.servlet.BootstrapListener;
-import com.alibaba.dubbo.remoting.http.servlet.ServletManager;
-import com.alibaba.dubbo.rpc.RpcException;
-import com.alibaba.dubbo.rpc.protocol.AbstractProxyProtocol;
-import com.alibaba.dubbo.rpc.ServiceClassHolder;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
+
 import org.apache.http.HeaderElement;
 import org.apache.http.HeaderElementIterator;
 import org.apache.http.HttpResponse;
@@ -42,15 +44,15 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
 import org.jboss.resteasy.util.GetRestful;
 
-import javax.servlet.ServletContext;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.WebApplicationException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.dubbo.remoting.http.HttpBinder;
+import com.alibaba.dubbo.remoting.http.servlet.BootstrapListener;
+import com.alibaba.dubbo.remoting.http.servlet.ServletManager;
+import com.alibaba.dubbo.rpc.RpcException;
+import com.alibaba.dubbo.rpc.ServiceClassHolder;
+import com.alibaba.dubbo.rpc.protocol.AbstractProxyProtocol;
 
 /**
  * @author lishen
@@ -113,6 +115,11 @@ public class RestProtocol extends AbstractProxyProtocol {
 
         final Class resourceDef = GetRestful.getRootResourceClass(implClass) != null ? implClass : type;
 
+        // dubbo 服务多版本
+        String version = url.getParameter(Constants.VERSION_KEY);
+        if (StringUtils.isNotEmpty(version)) {
+            contextPath = version + "/" + contextPath;
+        }
         server.deploy(resourceDef, impl, contextPath);
 
         final RestServer s = server;
@@ -182,8 +189,14 @@ public class RestProtocol extends AbstractProxyProtocol {
             }
         }
 
+        // dubbo 服务多版本
+        String version = url.getParameter(Constants.VERSION_KEY);
+        String versionPath = "";
+        if (StringUtils.isNotEmpty(version)) {
+            versionPath = version + "/";
+        }
         // TODO protocol
-        ResteasyWebTarget target = client.target("http://" + url.getHost() + ":" + url.getPort() + "/" + getContextPath(url));
+        ResteasyWebTarget target = client.target("http://" + url.getHost() + ":" + url.getPort() + "/" + versionPath + getContextPath(url));
         return target.proxy(serviceType);
     }
 
