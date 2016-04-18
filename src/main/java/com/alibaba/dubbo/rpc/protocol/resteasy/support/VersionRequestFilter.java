@@ -10,8 +10,8 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
 
 import io.netty.util.internal.StringUtil;
 
@@ -40,7 +40,8 @@ public class VersionRequestFilter implements ContainerRequestFilter {
             requestContext.setRequestUri(newUri);
 
         } catch (URISyntaxException e) {
-            log.error("requestContext.setRequestUri error:{}=>{}", version, requestUri);
+            String info = String.format("requestContext.setRequestUri error: version[%s]=>requestUri[%s]", version, requestUri);
+            log.error(info, e);
         }
 
     }
