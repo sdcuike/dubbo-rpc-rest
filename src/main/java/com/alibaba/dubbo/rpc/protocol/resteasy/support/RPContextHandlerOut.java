@@ -5,7 +5,7 @@ import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 
 /**
- * @author cuikexiang
+ * @author sdcuike
  *
  *         Create At 2016年4月25日 下午7:05:39
  */
