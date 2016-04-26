@@ -15,6 +15,8 @@
  */
 package com.alibaba.dubbo.rpc.protocol.resteasy;
 
+import java.util.Arrays;
+
 import org.jboss.resteasy.logging.Logger;
 import org.jboss.resteasy.logging.Logger.LoggerType;
 import org.jboss.resteasy.plugins.server.netty.NettyJaxrsServer;
@@ -23,6 +25,8 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.utils.NetUtils;
+import com.alibaba.dubbo.rpc.protocol.resteasy.support.RPCContextHandlerIn;
+import com.alibaba.dubbo.rpc.protocol.resteasy.support.RPCContextHandlerOut;
 
 /**
  * Netty server can't support @Context injection of servlet objects since it's not a servlet container
@@ -54,6 +58,8 @@ public class NettyServer extends BaseRestServer {
             server.setHostname(url.getHost());
         }
 
+        // 获取ip地址和头部信息
+        server.setHttpChannelHandlers(Arrays.asList(new RPCContextHandlerIn(), new RPCContextHandlerOut()));
         server.start();
     }
 

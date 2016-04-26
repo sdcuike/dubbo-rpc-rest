@@ -17,7 +17,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
  *         Create At 2016年4月25日 下午6:39:32
  */
 @Sharable
-public class RPContextHandlerIn extends SimpleChannelInboundHandler<FullHttpRequest> {
+public class RPCContextHandlerIn extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
@@ -29,6 +29,7 @@ public class RPContextHandlerIn extends SimpleChannelInboundHandler<FullHttpRequ
             context.setAttachment(entry.getKey(), entry.getValue());
         }
 
+        ctx.fireChannelRead(msg);
     }
 
 }
